@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Bitter, PT_Mono } from "next/font/google";
+import { RevealOnScroll } from "./components/RevealOnScroll";
 import "./globals.css";
 
 // Bitter — вариативный, весь диапазон веса; PT Mono — только данные (дни, цены, штамп).
@@ -24,7 +25,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="ru" className={`${bitter.variable} ${ptMono.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <RevealOnScroll />
+      </body>
     </html>
   );
 }

@@ -4,6 +4,8 @@
   --ink: #fbf7f3;
   --muted: #b9b1ac;
   --accent: #e58a95;
+  --accent-hover: #f1a3ac;
+  --on-accent: #1e1a19;
   --rule: rgba(251, 247, 243, 0.22);
   background: var(--bg);
   color: var(--ink);

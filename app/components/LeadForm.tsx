@@ -16,6 +16,7 @@ export function LeadForm() {
     <Section
       id="lead"
       tone="dark"
+      fadeTop
       title={nb("Перезвоним и всё оформим")}
       aside={
         <Photo

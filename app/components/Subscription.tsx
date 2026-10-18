@@ -11,6 +11,8 @@ export function Subscription() {
     <Section
       id="subscription"
       tone="dark"
+      fadeTop
+      fadeBottom
       title={nb("Чтобы кофе был всегда")}
       aside={<Figure value={"2 × 250 г"} caption="раз в месяц" />}
       banner={
@@ -35,7 +37,7 @@ export function Subscription() {
       </p>
       <p>{nb("Хотите попробовать? Оставьте заявку, мы позвоним и всё оформим.")}</p>
       <div className={styles.cta}>
-        <ButtonLink href="#lead">Оставить заявку</ButtonLink>
+        <ButtonLink href="#lead" variant="secondary">Оставить заявку</ButtonLink>
       </div>
     </Section>
   );

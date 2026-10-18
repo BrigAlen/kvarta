@@ -1,10 +1,27 @@
-.header {
+/* Липкая шапка: при прокрутке контент уходит под полупрозрачный фон с лёгким размытием.
+   Размытие здесь переход между шапкой и контентом, а не декоративный фон. */
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--bg);
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .bar {
+    background: color-mix(in srgb, var(--bg) 80%, transparent);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+}
+
+.inner {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 1rem;
-  padding-top: 1.25rem;
-  padding-bottom: 1.25rem;
+  padding-top: 1.125rem;
+  padding-bottom: 1.125rem;
 }
 
 .logo {
@@ -23,4 +40,12 @@
   text-decoration-color: var(--accent);
   text-decoration-thickness: 2px;
   text-underline-offset: 0.3em;
+  transition: text-decoration-thickness 0.2s ease, text-underline-offset 0.2s ease;
+}
+
+@media (hover: hover) {
+  .link:hover {
+    text-decoration-thickness: 4px;
+    text-underline-offset: 0.25em;
+  }
 }

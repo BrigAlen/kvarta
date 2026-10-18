@@ -3,13 +3,15 @@ import styles from "./Header.module.css";
 
 export function Header() {
   return (
-    <header className={`container ${styles.header}`}>
-      <Link className={styles.logo} href="/">
-        Кварта
-      </Link>
-      <a className={styles.link} href="#lead">
-        Заявка
-      </a>
+    <header className={styles.bar}>
+      <div className={`container ${styles.inner}`}>
+        <Link className={styles.logo} href="/">
+          Кварта
+        </Link>
+        <Link className={styles.link} href="/#lead">
+          Заявка
+        </Link>
+      </div>
     </header>
   );
 }

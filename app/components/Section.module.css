@@ -1,4 +1,5 @@
 .band {
+  position: relative;
   background: var(--bg);
   color: var(--ink);
 }
@@ -10,6 +11,8 @@
   --ink: #fbf7f3;
   --muted: #b9b1ac;
   --accent: #e58a95;
+  --accent-hover: #f1a3ac;
+  --on-accent: #1e1a19;
   --rule: rgba(251, 247, 243, 0.22);
 }
 
@@ -38,6 +41,54 @@
   line-height: 0;
 }
 
+/* Плавные переходы между светлой и тёмной секцией: градиент по краю вместо ступеньки.
+   Это переход между элементами, не декоративный фон. Запас в отступах, чтобы текст не попадал в градиент. */
+.fadeTop::before,
+.fadeBottom::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: clamp(3.5rem, 11vw, 7rem);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.fadeTop::before {
+  top: 0;
+  background: linear-gradient(
+    to bottom,
+    var(--page) 0%,
+    color-mix(in srgb, var(--page) 65%, transparent) 30%,
+    color-mix(in srgb, var(--page) 22%, transparent) 62%,
+    transparent 100%
+  );
+}
+
+.fadeBottom::after {
+  bottom: 0;
+  background: linear-gradient(
+    to top,
+    var(--page) 0%,
+    color-mix(in srgb, var(--page) 65%, transparent) 30%,
+    color-mix(in srgb, var(--page) 22%, transparent) 62%,
+    transparent 100%
+  );
+}
+
+.fadeTop .section {
+  padding-top: clamp(3.5rem, 10vw, 5.5rem);
+}
+
+.fadeBottom .section {
+  padding-bottom: clamp(4.5rem, 12vw, 7rem);
+}
+
+/* У секции с фото-полосой сверху переход несёт само фото. */
+.banner + .section {
+  padding-top: 2.25rem;
+}
+
 @media (min-width: 56rem) {
   .section {
     display: grid;
@@ -45,6 +96,10 @@
     column-gap: 4rem;
     padding-top: 3.5rem;
     padding-bottom: 3.5rem;
+  }
+
+  .banner + .section {
+    padding-top: 3.5rem;
   }
 
   .title {

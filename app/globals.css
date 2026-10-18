@@ -1,10 +1,14 @@
 :root {
+  --page: #fbf7f3; /* фон страницы: не меняется в тёмных секциях, нужен для плавных переходов */
   --bg: #fbf7f3;
   --ink: #1e1a19;
   --muted: #6b635f;
   --accent: #9b2c3b;
+  --accent-hover: #7e2330;
+  --on-accent: #ffffff; /* текст на залитой акцентом кнопке: 7.45:1 */
   --rule: rgba(30, 26, 25, 0.2);
 
+  --radius: 0.75rem;
   --font-text: var(--font-bitter), Georgia, serif;
   --font-mono: var(--font-pt-mono), ui-monospace, monospace;
 
@@ -52,6 +56,11 @@ p {
   outline-offset: 3px;
 }
 
+/* Якоря не уезжают под липкую шапку. */
+[id] {
+  scroll-margin-top: 4.5rem;
+}
+
 /* Общая колонка: на телефоне во всю ширину с полями, на широком экране — по центру, не шире 72rem. */
 .container {
   width: 100%;
@@ -68,4 +77,36 @@ p {
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
+}
+
+/* Плавное появление при прокрутке. Без JS и без IntersectionObserver атрибут остаётся пустым,
+   и всё видно сразу. «hidden» ставит RevealOnScroll только тем, что ещё ниже экрана. */
+[data-reveal="hidden"] {
+  opacity: 0;
+  transform: translateY(1.25rem);
+}
+
+[data-reveal="shown"] {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+/* Уважаем настройку «меньше движения»: никаких переходов и анимаций. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

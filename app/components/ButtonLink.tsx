@@ -8,23 +8,43 @@ function Arrow() {
   );
 }
 
+type Variant = "primary" | "secondary";
+
+const variantClass: Record<Variant, string> = {
+  primary: styles.primary,
+  secondary: styles.secondary,
+};
+
 type LinkProps = {
   href: string;
+  /** primary: залита акцентом (главное действие); secondary: контур. */
+  variant?: Variant;
   children: React.ReactNode;
 };
 
-export function ButtonLink({ href, children }: LinkProps) {
+export function ButtonLink({ href, variant = "primary", children }: LinkProps) {
   return (
-    <a className={styles.button} href={href}>
+    <a className={`${styles.button} ${variantClass[variant]}`} href={href}>
       <span>{children}</span>
       <Arrow />
     </a>
   );
 }
 
-export function SubmitButton({ children }: { children: React.ReactNode }) {
+type SubmitProps = {
+  /** Идёт отправка: кнопка недоступна, повторное нажатие ничего не делает. */
+  busy?: boolean;
+  children: React.ReactNode;
+};
+
+export function SubmitButton({ busy = false, children }: SubmitProps) {
   return (
-    <button className={styles.button} type="submit">
+    <button
+      className={`${styles.button} ${styles.primary}`}
+      type="submit"
+      disabled={busy}
+      aria-disabled={busy}
+    >
       <span>{children}</span>
       <Arrow />
     </button>

@@ -29,13 +29,35 @@
   letter-spacing: -0.01em;
 }
 
-/* Подчёркивание ниже выносных элементов «р» и «у»: сплошная линия, без обрубков от skip-ink. */
+/* Подчёркивание рисуем фоном, а не text-decoration, чтобы его можно было анимировать: сначала линия
+   «едет» под «четверг», затем под «пятницу». Ниже выносных элементов «р» и «у»: сплошная линия.
+   При prefers-reduced-motion анимации нет, линия сразу целиком (см. globals.css). */
 .mark {
-  text-decoration: underline;
-  text-decoration-color: var(--accent);
-  text-decoration-thickness: 3px;
-  text-decoration-skip-ink: none;
-  text-underline-offset: 0.3em;
+  padding-bottom: 0.1em;
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 3px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  animation: underline-draw 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.mark:first-of-type {
+  animation-delay: 0.35s;
+}
+
+.mark:last-of-type {
+  animation-delay: 1.05s;
+}
+
+@keyframes underline-draw {
+  from {
+    background-size: 0% 3px;
+  }
+  to {
+    background-size: 100% 3px;
+  }
 }
 
 .lead {
@@ -61,6 +83,10 @@
   object-fit: cover;
   object-position: 50% 45%;
   margin-top: 2.5rem;
+  border-radius: 1.25rem;
+  /* Нижний край растворяется в фон страницы. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
 }
 
 @media (min-width: 56rem) {
