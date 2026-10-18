@@ -1,0 +1,35 @@
+.hero {
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+}
+
+.eyebrow {
+  color: var(--muted);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.title {
+  margin-top: 0.75rem;
+  font-size: clamp(2rem, 9.7vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+/* Подчёркивание ниже выносных элементов «р» и «у»: сплошная линия, без обрубков от skip-ink. */
+.mark {
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 3px;
+  text-decoration-skip-ink: none;
+  text-underline-offset: 0.3em;
+}
+
+.lead {
+  margin-top: 1rem;
+}
+
+.week {
+  margin: 2rem 0;
+}

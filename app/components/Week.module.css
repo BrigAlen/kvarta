@@ -1,0 +1,38 @@
+.week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  list-style: none;
+  font-family: var(--font-mono);
+  text-align: center;
+}
+
+.day,
+.hot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.short {
+  font-size: 1rem;
+  line-height: 1.2;
+  color: var(--muted);
+}
+
+.hot .short {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 0.35em;
+}
+
+/* Место под подпись есть у всех дней, чтобы лента не прыгала по высоте. */
+.note {
+  min-height: 1.25rem;
+  font-size: 0.8125rem;
+  line-height: 1.25rem;
+  color: var(--accent);
+  white-space: nowrap;
+}
