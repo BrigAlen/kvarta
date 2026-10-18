@@ -1,6 +1,5 @@
 import { nb } from "../lib/typography";
 import { Figure, Figures } from "./Figure";
-import { Photo } from "./Photo";
 import { Section } from "./Section";
 import styles from "./About.module.css";
 
@@ -26,15 +25,6 @@ export function About() {
           )}
         </p>
       </div>
-      <Photo
-        className={styles.photo}
-        name="roaster-hands"
-        widths={[600, 1200]}
-        width={1200}
-        height={900}
-        sizes="(min-width: 56rem) 44rem, 100vw"
-        alt="Руки с деревянной лопаткой над миской с жареными зёрнами рядом с небольшим ростером"
-      />
     </Section>
   );
 }

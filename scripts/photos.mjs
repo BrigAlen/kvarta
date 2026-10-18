@@ -9,8 +9,8 @@ import sharp from "sharp";
 const jobs = [
   // широкая полоса в подписке: кадр целиком, CSS подрежет по высоте
   { src: "ichsan-chairul-iwcZmTKFo0w-unsplash.jpg", out: "roaster-tray", crop: null, widths: [800, 1600] },
-  // «Мы»: без оранжевого знака и ручки вверху, формат 4:3
-  { src: "mon-jester-3eAJ8NItqgg-unsplash.jpg", out: "roaster-hands", crop: { left: 0, top: 1182, width: 3667, height: 2750 }, widths: [600, 1200] },
+  // первый экран: ростер и руки, вертикальный кроп 4:5 без оранжевого знака и деревянной ручки вверху
+  { src: "mon-jester-3eAJ8NItqgg-unsplash.jpg", out: "hero-roaster", crop: { left: 0, top: 880, width: 3667, height: 4584 }, widths: [480, 800] },
   // форма: вертикальный кроп 4:5 вокруг холдера
   { src: "thom-holmes-HAOeV9vlAqo-unsplash.jpg", out: "portafilter", crop: { left: 1546, top: 276, width: 2208, height: 2760 }, widths: [480, 800] },
 ];

@@ -1,6 +1,6 @@
 import { nb } from "../lib/typography";
 import { ButtonLink } from "./ButtonLink";
-import { PackIllustration } from "./PackIllustration";
+import { Photo } from "./Photo";
 import { Week } from "./Week";
 import styles from "./Hero.module.css";
 
@@ -27,7 +27,16 @@ export function Hero() {
       <div className={styles.cta}>
         <ButtonLink href="#lead">Оставить заявку</ButtonLink>
       </div>
-      <PackIllustration className={styles.pack} />
+      <Photo
+        className={styles.photo}
+        name="hero-roaster"
+        widths={[480, 800]}
+        width={800}
+        height={1000}
+        sizes="(min-width: 56rem) 26rem, 100vw"
+        alt="Руки с деревянной лопаткой над миской с жареными зёрнами у небольшого ростера"
+        priority
+      />
     </section>
   );
 }

@@ -8,12 +8,14 @@ type Props = {
   height: number;
   alt: string;
   sizes: string;
+  /** Фото на первом экране: грузим сразу и с высоким приоритетом, а не лениво. */
+  priority?: boolean;
   className?: string;
 };
 
 // Обычный img, а не next/image: файлы уже уменьшены заранее, а оптимизатор Next на free-сервисе
 // Render после каждого «пробуждения» начинал бы работу заново.
-export function Photo({ name, widths, width, height, alt, sizes, className }: Props) {
+export function Photo({ name, widths, width, height, alt, sizes, priority = false, className }: Props) {
   const [small, large] = widths;
   return (
     // eslint-disable-next-line @next/next/no-img-element
@@ -25,7 +27,8 @@ export function Photo({ name, widths, width, height, alt, sizes, className }: Pr
       width={width}
       height={height}
       alt={alt}
-      loading="lazy"
+      loading={priority ? "eager" : "lazy"}
+      fetchPriority={priority ? "high" : "auto"}
       decoding="async"
     />
   );

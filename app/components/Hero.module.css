@@ -1,5 +1,5 @@
-/* Телефон: всё в один столбец, пачка под кнопкой (не выше ленты).
-   Широкий экран: текст и лента слева, пачка справа. */
+/* Телефон: всё в один столбец, фото под кнопкой (не выше ленты).
+   Широкий экран: текст и лента слева, фото справа. */
 .hero {
   display: grid;
   grid-template-areas:
@@ -8,7 +8,7 @@
     "lead"
     "week"
     "cta"
-    "pack";
+    "photo";
   padding-top: 1.5rem;
   padding-bottom: 2.5rem;
 }
@@ -52,10 +52,14 @@
   grid-area: cta;
 }
 
-.pack {
-  grid-area: pack;
+.photo {
+  grid-area: photo;
   display: block;
-  width: min(13rem, 100%);
+  width: 100%;
+  height: auto; /* без этого атрибут height перебивает aspect-ratio */
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: 50% 45%;
   margin-top: 2.5rem;
 }
 
@@ -63,11 +67,11 @@
   .hero {
     grid-template-columns: 7fr 5fr;
     grid-template-areas:
-      "eyebrow pack"
-      "title   pack"
-      "lead    pack"
-      "week    pack"
-      "cta     pack";
+      "eyebrow photo"
+      "title   photo"
+      "lead    photo"
+      "week    photo"
+      "cta     photo";
     column-gap: 4rem;
     padding-top: 3.5rem;
     padding-bottom: 4.5rem;
@@ -92,10 +96,11 @@
     max-width: 22rem;
   }
 
-  .pack {
+  .photo {
     align-self: center;
-    justify-self: center;
-    width: min(100%, 18rem);
+    justify-self: end;
+    width: min(100%, 26rem);
+    aspect-ratio: 4 / 5;
     margin-top: 0;
   }
 }
