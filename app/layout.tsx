@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bitter, PT_Mono } from "next/font/google";
+import { Bitter, Onest, PT_Mono } from "next/font/google";
 import { AttributionCapture } from "./components/AttributionCapture";
 import { RevealOnScroll } from "./components/RevealOnScroll";
 import "./globals.css";
@@ -8,6 +8,12 @@ import "./globals.css";
 const bitter = Bitter({
   subsets: ["cyrillic", "latin"],
   variable: "--font-bitter",
+  display: "swap",
+});
+
+const onest = Onest({
+  subsets: ["cyrillic", "latin"],
+  variable: "--font-onest",
   display: "swap",
 });
 
@@ -25,7 +31,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="ru" className={`${bitter.variable} ${ptMono.variable}`}>
+    <html lang="ru" className={`${bitter.variable} ${onest.variable} ${ptMono.variable}`}>
       <body>
         {children}
         <AttributionCapture />
