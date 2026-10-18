@@ -1,0 +1,18 @@
+.price {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: var(--price-size, 1.125rem);
+  white-space: nowrap;
+}
+
+.sum {
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.per {
+  color: var(--muted);
+  font-size: max(1rem, 0.45em);
+  font-weight: 400;
+}

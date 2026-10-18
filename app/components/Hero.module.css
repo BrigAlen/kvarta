@@ -1,4 +1,5 @@
-/* Телефон: всё в один столбец. Широкий экран: текст слева, неделя справа. */
+/* Телефон: всё в один столбец, пачка под кнопкой (не выше ленты).
+   Широкий экран: текст и лента слева, пачка справа. */
 .hero {
   display: grid;
   grid-template-areas:
@@ -6,7 +7,8 @@
     "title"
     "lead"
     "week"
-    "cta";
+    "cta"
+    "pack";
   padding-top: 2rem;
   padding-bottom: 3rem;
 }
@@ -50,14 +52,22 @@
   grid-area: cta;
 }
 
+.pack {
+  grid-area: pack;
+  display: block;
+  width: min(13rem, 100%);
+  margin-top: 2.5rem;
+}
+
 @media (min-width: 56rem) {
   .hero {
     grid-template-columns: 7fr 5fr;
     grid-template-areas:
-      "eyebrow week"
-      "title   week"
-      "lead    week"
-      "cta     week";
+      "eyebrow pack"
+      "title   pack"
+      "lead    pack"
+      "week    pack"
+      "cta     pack";
     column-gap: 4rem;
     padding-top: 4.5rem;
     padding-bottom: 6rem;
@@ -74,15 +84,18 @@
   }
 
   .week {
-    align-self: end;
-    margin: 0;
-  }
-
-  .cta {
-    margin-top: 2.5rem;
+    max-width: 34rem;
+    margin: 2.25rem 0;
   }
 
   .cta a {
     max-width: 22rem;
+  }
+
+  .pack {
+    align-self: center;
+    justify-self: center;
+    width: min(100%, 18rem);
+    margin-top: 0;
   }
 }

@@ -1,5 +1,4 @@
 import { nb } from "../lib/typography";
-import { PackIllustration } from "./PackIllustration";
 import { Section } from "./Section";
 import styles from "./About.module.css";
 
@@ -16,7 +15,6 @@ export function About() {
           )}
         </p>
       </div>
-      <PackIllustration className={styles.pack} />
     </Section>
   );
 }

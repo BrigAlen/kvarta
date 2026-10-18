@@ -45,11 +45,6 @@ export function LeadForm() {
         </div>
         <SubmitButton>Оставить заявку</SubmitButton>
       </form>
-      <address className={styles.contacts}>
-        <p>[телефон мастерской]</p>
-        <p>[Instagram]</p>
-        <p>{nb("Минск, ул. Короля, 9")}</p>
-      </address>
     </Section>
   );
 }

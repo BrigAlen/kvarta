@@ -1,5 +1,6 @@
 import { nb } from "../lib/typography";
 import { ButtonLink } from "./ButtonLink";
+import { PackIllustration } from "./PackIllustration";
 import { Week } from "./Week";
 import styles from "./Hero.module.css";
 
@@ -26,6 +27,7 @@ export function Hero() {
       <div className={styles.cta}>
         <ButtonLink href="#lead">Оставить заявку</ButtonLink>
       </div>
+      <PackIllustration className={styles.pack} />
     </section>
   );
 }

@@ -43,5 +43,5 @@
 .stampText {
   fill: var(--accent);
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: 13px;
 }

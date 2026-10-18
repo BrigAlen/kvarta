@@ -1,5 +1,6 @@
 import { nb } from "../lib/typography";
 import { ButtonLink } from "./ButtonLink";
+import { Price } from "./Price";
 import { Section } from "./Section";
 import styles from "./Subscription.module.css";
 
@@ -12,7 +13,7 @@ export function Subscription() {
         )}
       </p>
       <p className={styles.price}>
-        <span className={styles.sum}>{nb("54 BYN")}</span> {nb("в месяц")}
+        <Price amount="54" per="в месяц" />
       </p>
       <p>{nb("Хотите попробовать? Оставьте заявку, мы позвоним и всё оформим.")}</p>
       <div className={styles.cta}>
