@@ -1,3 +1,4 @@
+import { nb } from "../lib/typography";
 import styles from "./Section.module.css";
 
 type Props = {
@@ -7,6 +8,8 @@ type Props = {
   tone?: "light" | "dark";
   /** Левая колонка под заголовком: крупные цифры или фото. На телефоне стоит под заголовком. */
   aside?: React.ReactNode;
+  /** Мелкий надзаголовок капсом над заголовком. */
+  eyebrow?: string;
   /** Полоса на всю ширину над содержимым (фото). */
   banner?: React.ReactNode;
   /** Плавный переход от светлой секции сверху / к светлой секции снизу (градиент как переход, не как фон). */
@@ -16,7 +19,7 @@ type Props = {
 };
 
 // Телефон: заголовок над содержимым. Широкий экран: заголовок и aside слева, содержимое справа.
-export function Section({ id, title, tone = "light", aside, banner, fadeTop, fadeBottom, children }: Props) {
+export function Section({ id, title, tone = "light", eyebrow, aside, banner, fadeTop, fadeBottom, children }: Props) {
   const classes = [
     styles.band,
     tone === "dark" ? styles.dark : "",
@@ -31,6 +34,7 @@ export function Section({ id, title, tone = "light", aside, banner, fadeTop, fad
       {banner && <div className={styles.banner}>{banner}</div>}
       <div className={`container ${styles.section}`}>
         <div className={styles.head} data-reveal="">
+          {eyebrow && <p className="eyebrow">{nb(eyebrow)}</p>}
           <h2 id={`${id}-title`} className={styles.title}>
             {title}
           </h2>

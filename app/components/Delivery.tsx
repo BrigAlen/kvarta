@@ -7,6 +7,7 @@ export function Delivery() {
   return (
     <Section
       id="delivery"
+      eyebrow="Минск · по пятницам"
       title={nb("Привезём или заберёте сами")}
       aside={<Figure value="1–3" caption="день после обжарки: зерно у вас" />}
     >

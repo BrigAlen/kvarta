@@ -20,7 +20,7 @@ export function Photo({ name, widths, width, height, alt, sizes, priority = fals
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      className={className}
+      className={`${className ?? ""} photo-warm`.trim()}
       src={`/photos/${name}-${large}.webp`}
       srcSet={`/photos/${name}-${small}.webp ${small}w, /photos/${name}-${large}.webp ${large}w`}
       sizes={sizes}

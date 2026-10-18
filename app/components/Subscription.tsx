@@ -10,6 +10,7 @@ export function Subscription() {
   return (
     <Section
       id="subscription"
+      eyebrow="Раз в месяц"
       tone="dark"
       fadeTop
       fadeBottom

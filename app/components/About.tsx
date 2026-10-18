@@ -7,6 +7,7 @@ export function About() {
   return (
     <Section
       id="about"
+      eyebrow="Кто мы"
       title={nb("Мы — Аня и Дмитрий")}
       aside={
         <Figures>

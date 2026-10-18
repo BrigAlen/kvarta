@@ -8,25 +8,22 @@
     "lead"
     "week"
     "cta"
-    "photo";
+    "visual";
   padding-top: 1.5rem;
   padding-bottom: 2.5rem;
 }
 
-.eyebrow {
+.hero > :global(.eyebrow) {
   grid-area: eyebrow;
-  color: var(--muted);
-  font-size: 1rem;
-  font-weight: 600;
 }
 
 .title {
   grid-area: title;
   margin-top: 0.75rem;
-  font-size: clamp(2rem, 9.7vw, 3.5rem);
+  font-size: clamp(2.25rem, 10.5vw, 3.75rem);
   font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
 }
 
 /* Подчёркивание рисуем фоном, а не text-decoration, чтобы его можно было анимировать: сначала линия
@@ -74,43 +71,64 @@
   grid-area: cta;
 }
 
+/* Фото с штампом: контейнер нужен, чтобы штамп мог выходить за край фото. */
+.visual {
+  grid-area: visual;
+  position: relative;
+  margin-top: 2.5rem;
+}
+
 .photo {
-  grid-area: photo;
   display: block;
   width: 100%;
   height: auto; /* без этого атрибут height перебивает aspect-ratio */
   aspect-ratio: 4 / 3;
   object-fit: cover;
   object-position: 50% 45%;
-  margin-top: 2.5rem;
   border-radius: 1.25rem;
   /* Нижний край растворяется в фон страницы. */
   -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
 }
 
+.stamp {
+  position: absolute;
+  left: -0.25rem;
+  bottom: 18%;
+  z-index: 2;
+  padding: 0.45rem 0.8rem;
+  border: 2px solid var(--accent);
+  border-radius: 0.4rem;
+  background: var(--page);
+  color: var(--accent);
+  font: 400 1rem/1 var(--font-mono);
+  letter-spacing: 0.02em;
+  transform: rotate(-6deg);
+  pointer-events: none;
+}
+
 @media (min-width: 56rem) {
   .hero {
     grid-template-columns: 7fr 5fr;
     grid-template-areas:
-      "eyebrow photo"
-      "title   photo"
-      "lead    photo"
-      "week    photo"
-      "cta     photo";
+      "eyebrow visual"
+      "title   visual"
+      "lead    visual"
+      "week    visual"
+      "cta     visual";
     column-gap: 4rem;
     padding-top: 3.5rem;
     padding-bottom: 4.5rem;
   }
 
   .title {
-    font-size: clamp(3.25rem, 5.6vw, 5.25rem);
+    font-size: clamp(3.5rem, 6vw, 5.5rem);
   }
 
   .lead {
     max-width: 34rem;
     margin-top: 1.5rem;
-    font-size: 1.25rem;
+    font-size: 1.1875rem;
   }
 
   .week {
@@ -122,11 +140,20 @@
     max-width: 22rem;
   }
 
-  .photo {
+  .visual {
     align-self: center;
     justify-self: end;
     width: min(100%, 26rem);
-    aspect-ratio: 4 / 5;
     margin-top: 0;
+  }
+
+  .photo {
+    aspect-ratio: 4 / 5;
+  }
+
+  .stamp {
+    left: -2.25rem;
+    bottom: 20%;
+    font-size: 1.125rem;
   }
 }

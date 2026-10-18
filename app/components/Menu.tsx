@@ -19,7 +19,7 @@ const items = [
 
 export function Menu() {
   return (
-    <Section id="menu" title={nb("Что у нас есть")}>
+    <Section id="menu" eyebrow="Цены в BYN" title={nb("Что у нас есть")}>
       <ul className={styles.list}>
         {items.map((item) => (
           <li key={item.name} className={`${styles.item} ${item.featured ? styles.featured : ""}`}>

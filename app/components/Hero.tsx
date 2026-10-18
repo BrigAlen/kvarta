@@ -9,7 +9,7 @@ const NBSP = " ";
 export function Hero() {
   return (
     <section className={`container ${styles.hero}`}>
-      <p className={styles.eyebrow}>{nb("Минск · обжарка с 2019 года")}</p>
+      <p className="eyebrow">{nb("Минск · с 2019 года")}</p>
       {/* Заголовок собран вручную: внутри него подчёркнутые слова, nb() сквозь теги не работает. */}
       <h1 className={styles.title}>
         {`Обжарили в${NBSP}`}
@@ -27,16 +27,22 @@ export function Hero() {
       <div className={styles.cta} id="hero-cta">
         <ButtonLink href="#lead">Оставить заявку</ButtonLink>
       </div>
-      <Photo
-        className={styles.photo}
-        name="hero-roaster"
-        widths={[480, 800]}
-        width={800}
-        height={1000}
-        sizes="(min-width: 56rem) 26rem, 100vw"
-        alt="Руки с деревянной лопаткой над миской с жареными зёрнами у небольшого ростера"
-        priority
-      />
+      <div className={styles.visual}>
+        <Photo
+          className={styles.photo}
+          name="hero-roaster"
+          widths={[480, 800]}
+          width={800}
+          height={1000}
+          sizes="(min-width: 56rem) 26rem, 100vw"
+          alt="Руки с деревянной лопаткой над миской с жареными зёрнами у небольшого ростера"
+          priority
+        />
+        {/* Фирменный штамп: слегка повёрнут и заходит на край фото. Только украшение, текст дублирует заголовок. */}
+        <span className={styles.stamp} aria-hidden="true">
+          {nb("обжарено: чт")}
+        </span>
+      </div>
     </section>
   );
 }

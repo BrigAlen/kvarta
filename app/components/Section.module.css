@@ -1,6 +1,7 @@
 .band {
   position: relative;
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image: var(--grain, none); /* лёгкое бумажное зерно на светлом; в тёмных секциях отключено */
   color: var(--ink);
 }
 
@@ -15,6 +16,7 @@
   --accent-hover: #e6dfd8;
   --on-accent: #1e1a19;
   --rule: rgba(251, 247, 243, 0.22);
+  --grain: none;
 }
 
 .section {
@@ -23,11 +25,12 @@
 }
 
 .title {
+  margin-top: 0.5rem;
   text-wrap: balance;
-  font-size: 1.875rem;
+  font-size: clamp(2.25rem, 10vw, 3rem);
   font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
 }
 
 .aside {
@@ -104,7 +107,7 @@
   }
 
   .title {
-    font-size: 2.5rem;
+    font-size: clamp(3.5rem, 5vw, 4.5rem);
   }
 
   .aside {

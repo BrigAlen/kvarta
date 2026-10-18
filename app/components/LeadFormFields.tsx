@@ -298,7 +298,7 @@ export function LeadFormFields() {
 
       <div className={styles.hp} aria-hidden="true">
         <label>
-          Не заполняйте это поле
+          {nb("Не заполняйте это поле")}
           <input
             type="text"
             name="website"

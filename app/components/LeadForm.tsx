@@ -9,6 +9,7 @@ export function LeadForm() {
   return (
     <Section
       id="lead"
+      eyebrow="Заявка"
       tone="dark"
       fadeTop
       title={nb("Перезвоним и всё оформим")}
