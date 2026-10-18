@@ -1,0 +1,80 @@
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { parseBelarusPhone, phoneErrorMessage, PHONE_EXAMPLE } from "./phone.ts";
+
+const E164 = "+375291234567";
+
+test("форматы из verify.md приводятся к одному виду", () => {
+  const inputs = [
+    "+375 29 123-45-67",
+    "+375291234567",
+    "375291234567",
+    "80291234567",
+    "8 029 123 45 67",
+    "029 123 45 67", // допущение: ноль без восьмёрки принимаем
+    "+375 (29) 123 45 67",
+    "  +375.29.123.45.67  ",
+    "+375 29 123-45-67",
+  ];
+  for (const input of inputs) {
+    const r = parseBelarusPhone(input);
+    assert.ok(r.ok, `должен приниматься: ${JSON.stringify(input)}`);
+    assert.equal(r.e164, E164, input);
+    assert.equal(r.display, "+375 29 123-45-67", input);
+  }
+});
+
+test("коды 25, 33, 44 в разных форматах", () => {
+  for (const code of ["25", "33", "44"]) {
+    const forms = [`+375 ${code} 123-45-67`, `+375${code}1234567`, `375${code}1234567`, `80${code}1234567`, `8 0${code} 123 45 67`, `+375 (${code}) 123 45 67`];
+    for (const input of forms) {
+      const r = parseBelarusPhone(input);
+      assert.ok(r.ok, input);
+      assert.equal(r.e164, `+375${code}1234567`, input);
+    }
+  }
+});
+
+test("минский городской код 17 принимается", () => {
+  const r = parseBelarusPhone("+375 17 123-45-67");
+  assert.ok(r.ok);
+  assert.equal(r.e164, "+375171234567");
+});
+
+test("разные форматы одного номера дают одно и то же нормализованное значение (основа дедупликации)", () => {
+  const a = parseBelarusPhone("+375291234567");
+  const b = parseBelarusPhone("80291234567");
+  assert.ok(a.ok && b.ok);
+  assert.equal(a.e164, b.e164);
+});
+
+test("отклоняются с понятной причиной", () => {
+  const cases: [string, string][] = [
+    ["+375 19 123-45-67", "code"], // нет такого кода
+    ["+375 15 123-45-67", "code"], // региональный городской, не принимаем
+    ["+375 29 123-45-6", "length"], // не хватает цифры
+    ["+375 29 123-45-678", "length"], // лишняя цифра
+    ["+7 912 345-67-89", "country"], // не Беларусь
+    ["79123456789", "country"],
+    ["", "empty"],
+    ["   ", "empty"],
+    ["abc", "format"],
+    ["+375 29 12з-45-67", "format"], // буква вместо цифры
+    ["+375 29 123-45-67 доб. 5", "format"],
+    ["++375291234567", "format"],
+    ["375+291234567", "format"],
+    ["89123456789", "format"], // российский вид 8 9xx
+    ["+", "format"],
+  ];
+  for (const [input, reason] of cases) {
+    const r = parseBelarusPhone(input);
+    assert.equal(r.ok, false, `должен отклоняться: ${JSON.stringify(input)}`);
+    if (!r.ok) assert.equal(r.reason, reason, input);
+  }
+});
+
+test("у каждой причины отказа есть подсказка с примером формата", () => {
+  for (const reason of ["empty", "format", "length", "country", "code"] as const) {
+    assert.ok(phoneErrorMessage(reason).includes(PHONE_EXAMPLE), reason);
+  }
+});
