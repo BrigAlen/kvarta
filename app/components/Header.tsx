@@ -8,7 +8,7 @@ export function Header() {
         Кварта
       </Link>
       <a className={styles.link} href="#lead">
-        Оставить заявку
+        Заявка
       </a>
     </header>
   );
