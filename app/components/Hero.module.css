@@ -85,7 +85,7 @@
   aspect-ratio: 4 / 3;
   object-fit: cover;
   object-position: 50% 45%;
-  border-radius: 1.25rem;
+  border-radius: var(--radius);
   /* Нижний край растворяется в фон страницы. */
   -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
@@ -98,7 +98,7 @@
   z-index: 2;
   padding: 0.45rem 0.8rem;
   border: 2px solid var(--accent);
-  border-radius: 0.4rem;
+  border-radius: calc(var(--radius) / 2);
   background: var(--page);
   color: var(--accent);
   font: 400 1rem/1 var(--font-mono);
