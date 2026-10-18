@@ -1,6 +1,12 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { parseBelarusPhone, phoneErrorMessage, PHONE_EXAMPLE } from "./phone.ts";
+import {
+  formatPhoneIfValid,
+  parseBelarusPhone,
+  phoneErrorMessage,
+  PHONE_EXAMPLE,
+  sanitizePhoneInput,
+} from "./phone.ts";
 
 const E164 = "+375291234567";
 
@@ -20,7 +26,7 @@ test("форматы из verify.md приводятся к одному вид�
     const r = parseBelarusPhone(input);
     assert.ok(r.ok, `должен приниматься: ${JSON.stringify(input)}`);
     assert.equal(r.e164, E164, input);
-    assert.equal(r.display, "+375 29 123-45-67", input);
+    assert.equal(r.display, "+375 (29) 123-45-67", input);
   }
 });
 
@@ -77,4 +83,21 @@ test("у каждой причины отказа есть подсказка с
   for (const reason of ["empty", "format", "length", "country", "code"] as const) {
     assert.ok(phoneErrorMessage(reason).includes(PHONE_EXAMPLE), reason);
   }
+});
+
+test("в поле остаются только цифры, плюс, пробелы, скобки и дефис", () => {
+  assert.equal(sanitizePhoneInput("abc+375 (29) 12x3-45-67"), "+375 (29) 123-45-67");
+  assert.equal(sanitizePhoneInput("тел. 8-029-123.45.67"), " 8-029-1234567");
+});
+
+test("поле не принимает больше 25 знаков", () => {
+  assert.equal(sanitizePhoneInput("1".repeat(40)).length, 25);
+});
+
+test("вставка и выход из поля: верный номер форматируется, неверный остаётся как есть", () => {
+  assert.equal(formatPhoneIfValid("8 029 123 45 67"), "+375 (29) 123-45-67");
+  assert.equal(formatPhoneIfValid("375291234567"), "+375 (29) 123-45-67");
+  assert.equal(formatPhoneIfValid("+375 (44) 123 45 67"), "+375 (44) 123-45-67");
+  assert.equal(formatPhoneIfValid("+375 29 12"), "+375 29 12");
+  assert.equal(formatPhoneIfValid(""), "");
 });

@@ -10,7 +10,7 @@ export type PhoneResult =
 
 export const PHONE_CODES = ["25", "29", "33", "44", "17"];
 
-export const PHONE_EXAMPLE = "+375 29 123-45-67";
+export const PHONE_EXAMPLE = "+375 (29) 123-45-67";
 
 const ERROR_MESSAGES: Record<PhoneErrorReason, string> = {
   empty: `Укажите телефон. Пример: ${PHONE_EXAMPLE}.`,
@@ -60,6 +60,21 @@ export function parseBelarusPhone(input: string): PhoneResult {
   return {
     ok: true,
     e164: `+375${national}`,
-    display: `+375 ${code} ${rest.slice(0, 3)}-${rest.slice(3, 5)}-${rest.slice(5)}`,
+    display: `+375 (${code}) ${rest.slice(0, 3)}-${rest.slice(3, 5)}-${rest.slice(5)}`,
   };
+}
+
+// Что можно вводить в поле: цифры, «+», пробел, скобки и дефис. Остальное (буквы, точки, запятые...) отбрасываем.
+const NOT_ALLOWED_IN_FIELD = /[^0-9+ ()-]/g;
+
+export const PHONE_FIELD_MAX_LENGTH = 25;
+
+export function sanitizePhoneInput(value: string): string {
+  return value.replace(NOT_ALLOWED_IN_FIELD, "").slice(0, PHONE_FIELD_MAX_LENGTH);
+}
+
+// Для вставки и выхода из поля: верный номер приводим к виду «+375 (29) 123-45-67», неверный не трогаем.
+export function formatPhoneIfValid(value: string): string {
+  const parsed = parseBelarusPhone(value);
+  return parsed.ok ? parsed.display : value;
 }
