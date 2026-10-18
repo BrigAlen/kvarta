@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Bitter, PT_Mono } from "next/font/google";
+import { AttributionCapture } from "./components/AttributionCapture";
 import { RevealOnScroll } from "./components/RevealOnScroll";
 import "./globals.css";
 
@@ -27,6 +28,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="ru" className={`${bitter.variable} ${ptMono.variable}`}>
       <body>
         {children}
+        <AttributionCapture />
         <RevealOnScroll />
       </body>
     </html>

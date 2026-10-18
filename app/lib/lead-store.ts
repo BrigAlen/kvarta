@@ -1,8 +1,8 @@
+import { DEDUP_MINUTES } from "./dedup";
 import { withClient } from "./db";
 import type { ValidLead } from "./lead";
 
-// Повторная заявка с тем же номером в течение этого времени не создаёт новую запись.
-export const DEDUP_MINUTES = 10;
+// Окно дедупликации (DEDUP_MINUTES) вынесено в dedup.ts: оно нужно и форме.
 
 export type SaveResult = { status: "created" } | { status: "duplicate" };
 
