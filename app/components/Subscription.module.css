@@ -1,0 +1,22 @@
+.price {
+  margin: 1.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.sum {
+  font-family: var(--font-mono);
+  font-size: 2.25rem;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.cta {
+  margin-top: 1.75rem;
+}
+
+@media (min-width: 56rem) {
+  .cta a {
+    max-width: 22rem;
+  }
+}

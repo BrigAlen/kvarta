@@ -1,0 +1,56 @@
+.list {
+  list-style: none;
+}
+
+/* Строка меню. Слева полоса нужна всем строкам, чтобы текст стоял ровно; цветная только у подписки. */
+.item {
+  padding: 1.125rem 0 1.125rem 1.125rem;
+  border-left: 3px solid transparent;
+  border-top: 1px solid var(--rule);
+}
+
+.item:first-child {
+  border-top: 0;
+}
+
+.featured {
+  margin-top: 0.75rem;
+  border-left-color: var(--accent);
+  border-top: 0;
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.price {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 1.125rem;
+  white-space: nowrap;
+}
+
+.desc {
+  margin-top: 0.25rem;
+  color: var(--muted);
+}
+
+.more {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.3em;
+}

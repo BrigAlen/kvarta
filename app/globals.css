@@ -3,6 +3,7 @@
   --ink: #1e1a19;
   --muted: #6b635f;
   --accent: #9b2c3b;
+  --rule: rgba(30, 26, 25, 0.2);
 
   --font-text: var(--font-bitter), Georgia, serif;
   --font-mono: var(--font-pt-mono), ui-monospace, monospace;
@@ -40,6 +41,10 @@ body {
   body {
     font-size: 1.125rem;
   }
+}
+
+p {
+  text-wrap: pretty;
 }
 
 :focus-visible {

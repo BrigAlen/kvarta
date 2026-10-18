@@ -1,0 +1,22 @@
+.cols {
+  display: grid;
+  gap: 2rem;
+}
+
+.sub {
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.hours {
+  margin-top: 0.5rem;
+}
+
+@media (min-width: 40rem) {
+  .cols {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+}

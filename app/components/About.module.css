@@ -1,0 +1,9 @@
+.text p + p {
+  margin-top: 1rem;
+}
+
+.pack {
+  display: block;
+  width: min(13rem, 100%);
+  margin-top: 2.5rem;
+}
