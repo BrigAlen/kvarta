@@ -16,3 +16,6 @@ next-env.d.ts
 .DS_Store
 *.pem
 npm-debug.log*
+
+# исходные фото (тяжёлые): в репозиторий идут только готовые WebP из public/photos
+/photos-src/
