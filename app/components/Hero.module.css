@@ -1,15 +1,25 @@
+/* Телефон: всё в один столбец. Широкий экран: текст слева, неделя справа. */
 .hero {
+  display: grid;
+  grid-template-areas:
+    "eyebrow"
+    "title"
+    "lead"
+    "week"
+    "cta";
   padding-top: 2rem;
   padding-bottom: 3rem;
 }
 
 .eyebrow {
+  grid-area: eyebrow;
   color: var(--muted);
   font-size: 1rem;
   font-weight: 600;
 }
 
 .title {
+  grid-area: title;
   margin-top: 0.75rem;
   font-size: clamp(2rem, 9.7vw, 3.5rem);
   font-weight: 800;
@@ -27,9 +37,52 @@
 }
 
 .lead {
+  grid-area: lead;
   margin-top: 1rem;
 }
 
 .week {
+  grid-area: week;
   margin: 2rem 0;
+}
+
+.cta {
+  grid-area: cta;
+}
+
+@media (min-width: 56rem) {
+  .hero {
+    grid-template-columns: 7fr 5fr;
+    grid-template-areas:
+      "eyebrow week"
+      "title   week"
+      "lead    week"
+      "cta     week";
+    column-gap: 4rem;
+    padding-top: 4.5rem;
+    padding-bottom: 6rem;
+  }
+
+  .title {
+    font-size: clamp(3.25rem, 5.6vw, 5.25rem);
+  }
+
+  .lead {
+    max-width: 34rem;
+    margin-top: 1.5rem;
+    font-size: 1.25rem;
+  }
+
+  .week {
+    align-self: end;
+    margin: 0;
+  }
+
+  .cta {
+    margin-top: 2.5rem;
+  }
+
+  .cta a {
+    max-width: 22rem;
+  }
 }

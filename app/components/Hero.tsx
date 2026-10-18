@@ -1,22 +1,31 @@
+import { nb } from "../lib/typography";
 import { ButtonLink } from "./ButtonLink";
 import { Week } from "./Week";
 import styles from "./Hero.module.css";
 
+const NBSP = " ";
+
 export function Hero() {
   return (
     <section className={`container ${styles.hero}`}>
-      <p className={styles.eyebrow}>Минск · обжарка с 2019 года</p>
+      <p className={styles.eyebrow}>{nb("Минск · обжарка с 2019 года")}</p>
+      {/* Заголовок собран вручную: внутри него подчёркнутые слова, nb() сквозь теги не работает. */}
       <h1 className={styles.title}>
-        Обжарили в <span className={styles.mark}>четверг</span> — в{" "}
-        <span className={styles.mark}>пятницу</span> у вас
+        {`Обжарили в${NBSP}`}
+        <span className={styles.mark}>четверг</span>
+        {`${NBSP}— в${NBSP}`}
+        <span className={styles.mark}>пятницу</span>
+        {`${NBSP}у${NBSP}вас`}
       </h1>
       <p className={styles.lead}>
-        Развозим по Минску по пятницам. Зерно у вас на 1–3 день после обжарки.
+        {nb("Развозим по Минску по пятницам. Зерно у вас на 1–3 день после обжарки.")}
       </p>
       <div className={styles.week}>
         <Week />
       </div>
-      <ButtonLink href="#lead">Оставить заявку</ButtonLink>
+      <div className={styles.cta}>
+        <ButtonLink href="#lead">Оставить заявку</ButtonLink>
+      </div>
     </section>
   );
 }

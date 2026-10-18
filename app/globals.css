@@ -7,8 +7,8 @@
   --font-text: var(--font-bitter), Georgia, serif;
   --font-mono: var(--font-pt-mono), ui-monospace, monospace;
 
-  --gutter: 1rem;
-  --column: 40rem;
+  --gutter: clamp(1rem, 4vw, 2rem);
+  --column: 72rem;
 }
 
 * {
@@ -36,12 +36,18 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+@media (min-width: 56rem) {
+  body {
+    font-size: 1.125rem;
+  }
+}
+
 :focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
 
-/* Общая колонка: на телефоне во всю ширину с полями, на широком экране — узкая по центру. */
+/* Общая колонка: на телефоне во всю ширину с полями, на широком экране — по центру, не шире 72rem. */
 .container {
   width: 100%;
   max-width: var(--column);
