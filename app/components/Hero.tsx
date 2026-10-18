@@ -24,7 +24,7 @@ export function Hero() {
       <div className={styles.week}>
         <Week />
       </div>
-      <div className={styles.cta}>
+      <div className={styles.cta} id="hero-cta">
         <ButtonLink href="#lead">Оставить заявку</ButtonLink>
       </div>
       <Photo

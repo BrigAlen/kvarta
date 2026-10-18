@@ -83,13 +83,13 @@ p {
    и всё видно сразу. «hidden» ставит RevealOnScroll только тем, что ещё ниже экрана. */
 [data-reveal="hidden"] {
   opacity: 0;
-  transform: translateY(1.25rem);
+  transform: translateY(0.75rem);
 }
 
 [data-reveal="shown"] {
   opacity: 1;
   transform: none;
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transition: opacity 0.35s ease-out, transform 0.35s ease-out;
 }
 
 /* Уважаем настройку «меньше движения»: никаких переходов и анимаций. */

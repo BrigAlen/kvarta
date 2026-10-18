@@ -27,7 +27,7 @@ export function Section({ id, title, tone = "light", aside, banner, fadeTop, fad
     .join(" ");
 
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className={classes}>
+    <section id={id} aria-labelledby={`${id}-title`} className={classes} data-tone={tone}>
       {banner && <div className={styles.banner}>{banner}</div>}
       <div className={`container ${styles.section}`}>
         <div className={styles.head} data-reveal="">

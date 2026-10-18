@@ -1,0 +1,38 @@
+/* Только на телефоне. Поверх экрана снизу, с учётом «чёлки» и жестовой полосы iPhone. */
+.bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 25;
+  padding: 0.625rem var(--gutter) calc(0.625rem + env(safe-area-inset-bottom));
+  background: var(--page);
+  border-top: 1px solid var(--rule);
+  transform: translateY(110%);
+  visibility: hidden;
+  transition: transform 0.3s ease, visibility 0s linear 0.3s;
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .bar {
+    background: color-mix(in srgb, var(--page) 88%, transparent);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+}
+
+.bar[data-visible="true"] {
+  transform: none;
+  visibility: visible;
+  transition: transform 0.3s ease;
+}
+
+.bar a {
+  min-height: 3.25rem;
+}
+
+@media (min-width: 56rem) {
+  .bar {
+    display: none;
+  }
+}

@@ -50,7 +50,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  height: clamp(3.5rem, 11vw, 7rem);
+  height: clamp(1.5rem, 8vw, 7rem);
   pointer-events: none;
   z-index: 1;
 }
@@ -78,11 +78,11 @@
 }
 
 .fadeTop .section {
-  padding-top: clamp(3.5rem, 10vw, 5.5rem);
+  padding-top: clamp(2.5rem, 9vw, 5.5rem);
 }
 
 .fadeBottom .section {
-  padding-bottom: clamp(4.5rem, 12vw, 7rem);
+  padding-bottom: clamp(3rem, 10vw, 7rem);
 }
 
 /* У секции с фото-полосой сверху переход несёт само фото. */

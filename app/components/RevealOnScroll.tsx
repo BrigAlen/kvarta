@@ -2,7 +2,8 @@
 
 import { useEffect } from "react";
 
-// Плавное появление блоков с атрибутом data-reveal. Прячем только то, что ещё ниже экрана,
+// Плавное появление блоков с атрибутом data-reveal. Срабатывает за треть экрана ДО входа блока в экран,
+// чтобы при быстрой прокрутке секции не были пустыми. Прячем только то, что ещё ниже экрана,
 // поэтому вспышки нет, а без JS всё остаётся видимым. Отключается при prefers-reduced-motion.
 export function RevealOnScroll() {
   useEffect(() => {
@@ -17,7 +18,7 @@ export function RevealOnScroll() {
           observer.unobserve(entry.target);
         }
       },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.05 },
+      { rootMargin: "0px 0px 30% 0px", threshold: 0 },
     );
 
     for (const el of document.querySelectorAll<HTMLElement>("[data-reveal]")) {
