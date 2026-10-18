@@ -33,12 +33,14 @@ export async function saveLead(lead: ValidLead): Promise<SaveResult> {
         `INSERT INTO leads
            (name, phone, interest, comment,
             utm_source, utm_medium, utm_campaign, utm_term, utm_content,
-            gclid, fbclid, yclid, referrer, landing_url, submit_url)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)`,
+            gclid, fbclid, yclid, referrer, landing_url, submit_url,
+            consent_at, consent_policy_version)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, now(), $16)`,
         [
           lead.name, lead.phone, lead.interest, lead.comment,
           a.utm_source, a.utm_medium, a.utm_campaign, a.utm_term, a.utm_content,
           a.gclid, a.fbclid, a.yclid, a.referrer, a.landing_url, a.submit_url,
+          lead.consentPolicyVersion,
         ],
       );
       await client.query("COMMIT");

@@ -1,41 +1,32 @@
+import { ATTRIBUTION_KEYS, type AttributionKey } from "./attribution";
 import { parseBelarusPhone, phoneErrorMessage } from "./phone";
+import { POLICY_VERSION } from "./policy";
 
-// Серверная проверка заявки. Клиенту не доверяем ни в чём: типы, длины, допустимые значения.
+// Проверка заявки: и сервер, и форма в браузере используют этот модуль (правила в одном месте).
+// Серверу клиент не доверяет ни в чём: типы, длины, допустимые значения, согласие.
 
 export const INTERESTS = ["subscription", "order", "question"] as const;
 export type Interest = (typeof INTERESTS)[number];
-
-export const ATTRIBUTION_KEYS = [
-  "utm_source",
-  "utm_medium",
-  "utm_campaign",
-  "utm_term",
-  "utm_content",
-  "gclid",
-  "fbclid",
-  "yclid",
-  "referrer",
-  "landing_url",
-  "submit_url",
-] as const;
-export type AttributionKey = (typeof ATTRIBUTION_KEYS)[number];
 
 export type ValidLead = {
   name: string;
   phone: string; // нормализованный +375XXXXXXXXX
   interest: Interest;
   comment: string | null;
+  consentPolicyVersion: string;
   attribution: Record<AttributionKey, string | null>;
 };
 
-export type LeadField = "name" | "phone" | "interest" | "comment";
+export type LeadField = "name" | "phone" | "interest" | "comment" | "consent";
 export type LeadErrors = Partial<Record<LeadField, string>>;
 
 export type LeadValidation = { ok: true; lead: ValidLead } | { ok: false; errors: LeadErrors };
 
 export const LIMITS = { name: 100, phone: 40, comment: 1000, attribution: 500 };
 
-// Убираем управляющие символы: Postgres не принимает нулевой байт в тексте, а остальное — мусор.
+export const CONSENT_REQUIRED_MESSAGE = "Без согласия на обработку данных мы не можем принять заявку.";
+
+// Убираем управляющие символы: Postgres не принимает нулевой байт в тексте, а остальное мусор.
 // Перевод строки и табуляцию оставляем (нужны в комментарии).
 function clean(value: string): string {
   let out = "";
@@ -84,6 +75,9 @@ export function validateLead(body: Record<string, unknown>): LeadValidation {
     }
   }
 
+  // Согласие: только настоящее true. Строка "true", 1 и прочее не считаются согласием.
+  if (body.consent !== true) errors.consent = CONSENT_REQUIRED_MESSAGE;
+
   if (Object.keys(errors).length > 0 || !interest) return { ok: false, errors };
 
   // Источник: мусор в метках не должен стоить нам заявки, поэтому лишнее отбрасываем и обрезаем.
@@ -98,5 +92,5 @@ export function validateLead(body: Record<string, unknown>): LeadValidation {
     }
   }
 
-  return { ok: true, lead: { name, phone, interest, comment, attribution } };
+  return { ok: true, lead: { name, phone, interest, comment, consentPolicyVersion: POLICY_VERSION, attribution } };
 }

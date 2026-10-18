@@ -17,7 +17,9 @@ CREATE TABLE IF NOT EXISTS leads (
   yclid        text,
   referrer     text,
   landing_url  text,
-  submit_url   text
+  submit_url   text,
+  consent_at   timestamptz,          -- время согласия на обработку данных (ставит сервер)
+  consent_policy_version text        -- версия политики, на которую согласился человек
 );
 
 -- Быстрый поиск свежей заявки с тем же номером (дедупликация).
