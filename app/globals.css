@@ -1,11 +1,60 @@
+:root {
+  --bg: #fbf7f3;
+  --ink: #1e1a19;
+  --muted: #6b635f;
+  --accent: #9b2c3b;
+
+  --font-text: var(--font-bitter), Georgia, serif;
+  --font-mono: var(--font-pt-mono), ui-monospace, monospace;
+
+  --gutter: 1rem;
+  --column: 40rem;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 body {
-  font-family: system-ui, sans-serif;
-  font-size: 1rem;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: 1.0625rem;
   line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Общая колонка: на телефоне во всю ширину с полями, на широком экране — узкая по центру. */
+.container {
+  width: 100%;
+  max-width: var(--column);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* Текст только для скринридеров. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }

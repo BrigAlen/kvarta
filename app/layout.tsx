@@ -1,5 +1,20 @@
 import type { Metadata } from "next";
+import { Bitter, PT_Mono } from "next/font/google";
 import "./globals.css";
+
+// Bitter — вариативный, весь диапазон веса; PT Mono — только данные (дни, цены, штамп).
+const bitter = Bitter({
+  subsets: ["cyrillic", "latin"],
+  variable: "--font-bitter",
+  display: "swap",
+});
+
+const ptMono = PT_Mono({
+  subsets: ["cyrillic", "latin"],
+  weight: "400",
+  variable: "--font-pt-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Кварта — обжарка кофе в Минске",
@@ -8,7 +23,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="ru">
+    <html lang="ru" className={`${bitter.variable} ${ptMono.variable}`}>
       <body>{children}</body>
     </html>
   );
