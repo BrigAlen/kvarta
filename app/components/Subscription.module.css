@@ -1,3 +1,11 @@
+.banner {
+  display: block;
+  width: 100%;
+  height: clamp(11rem, 28vw, 24rem);
+  object-fit: cover;
+  object-position: 50% 40%;
+}
+
 .price {
   --price-size: 2.25rem;
   margin: 1.5rem 0;

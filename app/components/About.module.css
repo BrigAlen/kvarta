@@ -1,3 +1,10 @@
 .text p + p {
   margin-top: 1rem;
 }
+
+.photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 2rem;
+}

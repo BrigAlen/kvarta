@@ -1,10 +1,15 @@
 import { nb } from "../lib/typography";
+import { Figure } from "./Figure";
 import { Section } from "./Section";
 import styles from "./Delivery.module.css";
 
 export function Delivery() {
   return (
-    <Section id="delivery" title={nb("Привезём или заберёте сами")}>
+    <Section
+      id="delivery"
+      title={nb("Привезём или заберёте сами")}
+      aside={<Figure value="1–3" caption="день после обжарки: зерно у вас" />}
+    >
       <div className={styles.cols}>
         <div>
           <h3 className={styles.sub}>Доставка</h3>

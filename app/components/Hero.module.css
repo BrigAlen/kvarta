@@ -9,8 +9,8 @@
     "week"
     "cta"
     "pack";
-  padding-top: 2rem;
-  padding-bottom: 3rem;
+  padding-top: 1.5rem;
+  padding-bottom: 2.5rem;
 }
 
 .eyebrow {
@@ -69,8 +69,8 @@
       "week    pack"
       "cta     pack";
     column-gap: 4rem;
-    padding-top: 4.5rem;
-    padding-bottom: 6rem;
+    padding-top: 3.5rem;
+    padding-bottom: 4.5rem;
   }
 
   .title {

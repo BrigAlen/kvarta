@@ -1,5 +1,30 @@
+/* Тёмный подвал продолжает тёмную секцию с формой: тот же фон, тонкая линия между ними. */
 .footer {
-  padding-top: 2rem;
-  padding-bottom: 3rem;
+  --bg: #1e1a19;
+  --ink: #fbf7f3;
+  --muted: #b9b1ac;
+  --accent: #e58a95;
+  --rule: rgba(251, 247, 243, 0.22);
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.inner {
+  display: grid;
+  gap: 0.5rem;
+  padding-top: 1.5rem;
+  padding-bottom: 2.5rem;
+  border-top: 1px solid var(--rule);
+}
+
+.credit {
   color: var(--muted);
+  font-size: 1rem;
+}
+
+@media (min-width: 56rem) {
+  .inner {
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+  }
 }

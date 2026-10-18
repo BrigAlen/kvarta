@@ -1,5 +1,6 @@
 import { nb } from "../lib/typography";
 import { SubmitButton } from "./ButtonLink";
+import { Photo } from "./Photo";
 import { Section } from "./Section";
 import styles from "./LeadForm.module.css";
 
@@ -9,10 +10,25 @@ const interests = [
   { value: "question", label: "Вопрос" },
 ];
 
-// Пока только разметка и стили. Отправка, валидация и ответы сервера — шаги 4–5.
+// Пока только разметка и стили. Отправка, валидация, согласие и ответы сервера — шаг 5.
 export function LeadForm() {
   return (
-    <Section id="lead" title={nb("Перезвоним и всё оформим")}>
+    <Section
+      id="lead"
+      tone="dark"
+      title={nb("Перезвоним и всё оформим")}
+      aside={
+        <Photo
+          className={styles.photo}
+          name="portafilter"
+          widths={[480, 800]}
+          width={800}
+          height={1000}
+          sizes="(min-width: 56rem) 22rem, 100vw"
+          alt="Руки с холдером эспрессо-машины, в который засыпан молотый кофе"
+        />
+      }
+    >
       <p>{nb("Выберите, что вас интересует, оставьте телефон, и мы перезвоним.")}</p>
       <form className={styles.form} noValidate>
         <div className={styles.field}>

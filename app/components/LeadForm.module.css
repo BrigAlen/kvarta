@@ -69,3 +69,21 @@
     max-width: 22rem;
   }
 }
+
+/* Фото в левой колонке: на телефоне широкая полоса, на широком экране вертикальный кадр 4:5. */
+.photo {
+  display: block;
+  width: 100%;
+  height: auto; /* без этого атрибут height=1000 перебивает aspect-ratio */
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: 50% 55%;
+}
+
+@media (min-width: 56rem) {
+  .photo {
+    max-width: 22rem;
+    aspect-ratio: 4 / 5;
+    object-position: 50% 50%;
+  }
+}
