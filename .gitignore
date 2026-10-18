@@ -1,6 +1,18 @@
+# зависимости
+/node_modules
+
+# сборка Next.js
+/.next/
+/out/
+/build
+next-env.d.ts
+*.tsbuildinfo
+
 # переменные окружения: игнорируем всё, кроме шаблона
 .env*
 !.env.example
 
-node_modules
-.next
+# прочее
+.DS_Store
+*.pem
+npm-debug.log*
