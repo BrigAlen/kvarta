@@ -8,7 +8,7 @@
   --on-accent: #ffffff; /* текст на залитой акцентом кнопке: 7.45:1 */
   --rule: rgba(30, 26, 25, 0.2);
 
-  --radius: 0.75rem;
+  --radius: 0.875rem; /* кнопки, поля, фото; у мелких половина; края секций (--sheet) больше */
   --sheet: clamp(1.25rem, 5vw, 3rem); /* радиус скруглённого края секции */
   --grain-url: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .1 0 0 0 0 .08 0 0 0 0 .07 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.07'/%3E%3C/svg%3E");
   --grain: var(--grain-url);
