@@ -1,5 +1,7 @@
+import { after } from "next/server";
 import { validateLead } from "../../lib/lead";
 import { saveLead } from "../../lib/lead-store";
+import { notifyTelegram } from "../../lib/telegram";
 
 // POST /api/lead — приём заявки. Ответы:
 //   201 {ok:true}                  заявка сохранена
@@ -54,6 +56,8 @@ export async function POST(request: Request) {
   try {
     const saved = await saveLead(result.lead);
     if (saved.status === "duplicate") return reply(200, { ok: true, duplicate: true });
+    // Уведомление в Telegram уходит после ответа посетителю и не влияет на заявку (таймаут 5 с, ошибки только в лог).
+    after(() => notifyTelegram(result.lead));
     return reply(201, { ok: true });
   } catch (error) {
     // В лог — только текст ошибки: без номера и без тела заявки.
