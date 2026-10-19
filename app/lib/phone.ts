@@ -118,3 +118,22 @@ export function formatPhonePartial(value: string): string {
   if (national.length > 7) out += `-${national.slice(7, 9)}`;
   return out;
 }
+
+/**
+ * Новое значение поля после ввода. prev: что было, raw: что получилось после нажатия клавиши (уже без лишних символов),
+ * atEnd: курсор стоит в конце строки. Форматируем только при наборе и стирании в конце; правку в середине не трогаем
+ * до выхода из поля. Лишние цифры сверх номера не принимаем.
+ */
+export function nextPhoneValue(prev: string, raw: string, atEnd: boolean): string {
+  const deleting = raw.length < prev.length;
+  if (!atEnd) return raw;
+  if (deleting && phoneDigitCount(raw) <= 3 && raw.trim().startsWith("+")) {
+    // Стёрли последнюю цифру номера: остаётся префикс. Стёрли сам префикс: поле пустое (иначе его нельзя убрать).
+    return phoneDigitCount(prev) > 3 ? PHONE_PREFIX : "";
+  }
+  if (phoneDigitCount(raw) > phoneDigitLimit(raw)) {
+    // Лишнюю цифру не принимаем: возвращаем предыдущее значение.
+    return prev;
+  }
+  return formatPhonePartial(raw);
+}

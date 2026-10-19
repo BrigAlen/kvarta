@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import {
   formatPhoneIfValid,
   formatPhonePartial,
+  nextPhoneValue,
   parseBelarusPhone,
   phoneDigitCount,
   phoneDigitLimit,
@@ -133,4 +134,30 @@ test("лимит цифр зависит от вида номера", () => {
   assert.equal(phoneDigitLimit("8029"), 11);
   assert.equal(phoneDigitLimit("0291234567"), 10);
   assert.equal(phoneDigitCount("+375 (29) 123-45-67"), 12);
+});
+
+test("мягкая маска: набор в конце форматирует на лету", () => {
+  let v = "+375 ";
+  for (const ch of "291234567") v = nextPhoneValue(v, v + ch, true);
+  assert.equal(v, "+375 (29) 123-45-67");
+});
+
+test("мягкая маска: лишние цифры после полного номера не вводятся", () => {
+  assert.equal(nextPhoneValue("+375 (29) 123-45-67", "+375 (29) 123-45-678", true), "+375 (29) 123-45-67");
+  assert.equal(nextPhoneValue("80291234567", "802912345678", true), "80291234567");
+});
+
+test("мягкая маска: стирание в конце и стирание префикса", () => {
+  assert.equal(nextPhoneValue("+375 (29) 123-45-67", "+375 (29) 123-45-6", true), "+375 (29) 123-45-6");
+  assert.equal(nextPhoneValue("+375 (29) 1", "+375 (29) ", true), "+375 (29");
+  assert.equal(nextPhoneValue("+375 (2", "+375 (", true), "+375 ");
+  assert.equal(nextPhoneValue("+375 ", "+375", true), "");
+});
+
+test("мягкая маска: правка в середине не форматирует", () => {
+  assert.equal(nextPhoneValue("+375 (29) 123-45-67", "+375 (29) 1923-45-67", false), "+375 (29) 1923-45-67");
+});
+
+test("мягкая маска: номер с 8 и 0 набирается как есть", () => {
+  assert.equal(nextPhoneValue("8 029", "8 0291", true), "8 0291");
 });

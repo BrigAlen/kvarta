@@ -1,10 +1,20 @@
 import { DEDUP_MINUTES } from "./dedup";
 import { withClient } from "./db";
 import type { ValidLead } from "./lead";
+import { RETENTION_MONTHS } from "./policy";
 
 // Окно дедупликации (DEDUP_MINUTES) вынесено в dedup.ts: оно нужно и форме.
 
 export type SaveResult = { status: "created" } | { status: "duplicate" };
+
+async function purgeExpiredLeads(client: { query: (sql: string, params: unknown[]) => Promise<{ rowCount: number | null }> }) {
+  try {
+    const result = await client.query("DELETE FROM leads WHERE created_at < now() - $1 * interval '1 month'", [RETENTION_MONTHS]);
+    if (result.rowCount) console.log(`leads: удалено заявок старше ${RETENTION_MONTHS} месяцев: ${result.rowCount}`);
+  } catch (error) {
+    console.error("leads: не удалось удалить старые заявки:", error instanceof Error ? error.message : "неизвестная ошибка");
+  }
+}
 
 /**
  * Сохраняет заявку. Дедупликация целиком в базе, а не в коде приложения:
@@ -15,6 +25,10 @@ export type SaveResult = { status: "created" } | { status: "duplicate" };
  */
 export async function saveLead(lead: ValidLead): Promise<SaveResult> {
   return withClient(async (client) => {
+    // Срок хранения из политики: при каждой новой заявке удаляем старше RETENTION_MONTHS.
+    // Отдельным запросом ДО транзакции и под своим try: сбой удаления не должен ломать сохранение и ответ.
+    await purgeExpiredLeads(client);
+
     await client.query("BEGIN");
     try {
       await client.query("SELECT pg_advisory_xact_lock(hashtextextended($1, 0))", [lead.phone]);

@@ -7,10 +7,12 @@ import { DEDUP_MINUTES } from "../lib/dedup";
 import { validateLead, type LeadErrors, type LeadField } from "../lib/lead";
 import {
   formatPhoneIfValid,
+  nextPhoneValue,
   parseBelarusPhone,
   phoneErrorMessage,
   PHONE_EXAMPLE,
   PHONE_FIELD_MAX_LENGTH,
+  PHONE_PREFIX,
   sanitizePhoneInput,
 } from "../lib/phone";
 import { nb } from "../lib/typography";
@@ -95,8 +97,33 @@ export function LeadFormFields() {
     // Обычный ввод без лишних символов отменяет отложенный возврат курсора от предыдущего ввода,
     // иначе при быстром наборе он сработал бы позже и сбил порядок цифр.
     if (clean === raw) caretRef.current = null;
-    setPhone(clean);
+    // Мягкая маска: форматируем на лету при наборе и стирании в конце строки, правку в середине не трогаем до выхода.
+    const atEnd = caret >= raw.length;
+    const next = nextPhoneValue(phone, clean, atEnd);
+    if (atEnd) caretRef.current = next.length;
+    setPhone(next);
+    if (atEnd && next === phone) {
+      // Значение не изменилось (лишняя цифра отклонена): React не перерисует поле, курсор вернём сами.
+      requestAnimationFrame(() => phoneRef.current?.setSelectionRange(next.length, next.length));
+    }
     clearError("phone");
+  }
+
+  // В пустом поле при фокусе подставляем «+375 »: человеку остаётся ввести код и номер.
+  function onPhoneFocus() {
+    if (phone !== "") return;
+    caretRef.current = PHONE_PREFIX.length;
+    setPhone(PHONE_PREFIX);
+    // Тап по полю ставит курсор уже после фокуса (на месте нажатия, то есть в начале): возвращаем его в конец.
+    requestAnimationFrame(() => phoneRef.current?.setSelectionRange(PHONE_PREFIX.length, PHONE_PREFIX.length));
+  }
+
+  // Поле с одним префиксом: курсор всегда после него, цифры не должны попадать перед «+375 ».
+  function onPhonePointerUp() {
+    const input = phoneRef.current;
+    if (input && input.value === PHONE_PREFIX) {
+      requestAnimationFrame(() => input.setSelectionRange(PHONE_PREFIX.length, PHONE_PREFIX.length));
+    }
   }
 
   // Вставка любого формата (8 029…, 375…, со скобками): верный номер сразу приводим к виду «+375 (29) 123-45-67».
@@ -112,7 +139,10 @@ export function LeadFormFields() {
 
   // При выходе из поля верный номер форматируем, неверный не трогаем, но подсказываем.
   function onPhoneBlur() {
-    if (phone.trim() === "") return;
+    if (phone.trim() === "" || phone.trim() === PHONE_PREFIX.trim()) {
+      setPhone(""); // один префикс — это пустое поле: ошибку покажет отправка
+      return;
+    }
     const parsed = parseBelarusPhone(phone);
     if (parsed.ok) setPhone(formatPhoneIfValid(phone));
     else setErrors((current) => ({ ...current, phone: phoneErrorMessage(parsed.reason) }));
@@ -236,6 +266,9 @@ export function LeadFormFields() {
           value={phone}
           onChange={onPhoneChange}
           onPaste={onPhonePaste}
+          onFocus={onPhoneFocus}
+          onPointerUp={onPhonePointerUp}
+          onClick={onPhonePointerUp}
           onBlur={onPhoneBlur}
           aria-invalid={Boolean(errors.phone)}
           aria-describedby={errors.phone ? "lead-phone-error" : undefined}

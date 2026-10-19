@@ -1,4 +1,5 @@
 import { ATTRIBUTION_KEYS, type AttributionKey } from "./attribution";
+import { hasLetter } from "./text";
 import { parseBelarusPhone, phoneErrorMessage } from "./phone";
 import { POLICY_VERSION } from "./policy";
 
@@ -48,6 +49,7 @@ export function validateLead(body: Record<string, unknown>): LeadValidation {
   const name = typeof nameRaw === "string" ? clean(nameRaw) : "";
   if (name === "") errors.name = "Напишите, как к вам обращаться.";
   else if (name.length > LIMITS.name) errors.name = `Имя слишком длинное (не больше ${LIMITS.name} знаков).`;
+  else if (!hasLetter(name)) errors.name = "Напишите имя буквами.";
 
   let phone = "";
   const phoneRaw = body.phone;
