@@ -45,34 +45,22 @@
   line-height: 0;
 }
 
-/* Плавные переходы между светлой и тёмной секцией: градиент по краю вместо ступеньки.
-   Это переход между элементами, не декоративный фон. Запас в отступах, чтобы текст не попадал в градиент. */
-.fadeTop::before,
-.fadeBottom::after {
+/* Переходы между светлой и тёмной секцией. Градиент чернила-кремовый проходит через мутно-серую середину,
+   поэтому здесь скруглённые «листы», которые заезжают друг на друга: чистый край без серой полосы.
+   Фото-полоса в подписке растворяется градиентом (см. Subscription.module.css): там серого нет, это фото. */
+
+/* Верх секции с фото: светлый градиент поверх фото, фото «проявляется» из светлого фона. */
+.fadeTop::before {
   content: "";
   position: absolute;
+  top: 0;
   left: 0;
   right: 0;
   height: clamp(1.5rem, 8vw, 7rem);
   pointer-events: none;
   z-index: 1;
-}
-
-.fadeTop::before {
-  top: 0;
   background: linear-gradient(
     to bottom,
-    var(--page) 0%,
-    color-mix(in srgb, var(--page) 65%, transparent) 30%,
-    color-mix(in srgb, var(--page) 22%, transparent) 62%,
-    transparent 100%
-  );
-}
-
-.fadeBottom::after {
-  bottom: 0;
-  background: linear-gradient(
-    to top,
     var(--page) 0%,
     color-mix(in srgb, var(--page) 65%, transparent) 30%,
     color-mix(in srgb, var(--page) 22%, transparent) 62%,
@@ -84,8 +72,30 @@
   padding-top: clamp(2.5rem, 9vw, 5.5rem);
 }
 
+/* Тёмная секция поднимается над светлой скруглённым верхним краем. */
+.roundTop {
+  z-index: 1;
+  margin-top: calc(var(--sheet) * -1);
+  border-radius: var(--sheet) var(--sheet) 0 0;
+}
+
+/* Низ тёмной секции: светлая «крышка» со скруглённым верхним краем, дальше светлая секция продолжается без шва. */
+.fadeBottom::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: var(--sheet);
+  border-radius: var(--sheet) var(--sheet) 0 0;
+  background-color: var(--page);
+  background-image: var(--grain-url);
+  pointer-events: none;
+  z-index: 1;
+}
+
 .fadeBottom .section {
-  padding-bottom: clamp(3rem, 10vw, 7rem);
+  padding-bottom: calc(var(--sheet) + 2.25rem);
 }
 
 /* У секции с фото-полосой сверху переход несёт само фото. */
@@ -117,5 +127,16 @@
   .body {
     max-width: 44rem;
     margin-top: 0.5rem;
+  }
+}
+
+/* Секция перед тёмным «листом» с верхним скруглением: запас в отступе, чтобы лист не наезжал на текст. */
+.band:has(+ .roundTop) .section {
+  padding-bottom: calc(var(--sheet) + 2.25rem);
+}
+
+@media (min-width: 56rem) {
+  .band:has(+ .roundTop) .section {
+    padding-bottom: calc(var(--sheet) + 3.5rem);
   }
 }

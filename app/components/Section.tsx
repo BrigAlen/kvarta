@@ -15,16 +15,19 @@ type Props = {
   /** Плавный переход от светлой секции сверху / к светлой секции снизу (градиент как переход, не как фон). */
   fadeTop?: boolean;
   fadeBottom?: boolean;
+  /** Тёмная секция без фото сверху: скруглённый верхний край, заезжает на светлую секцию выше. */
+  roundTop?: boolean;
   children: React.ReactNode;
 };
 
 // Телефон: заголовок над содержимым. Широкий экран: заголовок и aside слева, содержимое справа.
-export function Section({ id, title, tone = "light", eyebrow, aside, banner, fadeTop, fadeBottom, children }: Props) {
+export function Section({ id, title, tone = "light", eyebrow, aside, banner, fadeTop, fadeBottom, roundTop, children }: Props) {
   const classes = [
     styles.band,
     tone === "dark" ? styles.dark : "",
     fadeTop ? styles.fadeTop : "",
     fadeBottom ? styles.fadeBottom : "",
+    roundTop ? styles.roundTop : "",
   ]
     .filter(Boolean)
     .join(" ");

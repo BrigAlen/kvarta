@@ -11,7 +11,7 @@ export function LeadForm() {
       id="lead"
       eyebrow="Заявка"
       tone="dark"
-      fadeTop
+      roundTop
       title={nb("Перезвоним и всё оформим")}
       aside={
         <Photo
