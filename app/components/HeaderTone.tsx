@@ -17,8 +17,10 @@ export function HeaderTone() {
     const start = () => {
       observer?.disconnect();
       under.clear();
-      // Линия наблюдения: середина шапки. Нижний отступ срезает весь экран ниже неё.
-      const line = Math.round(header.getBoundingClientRect().height / 2);
+      // Наблюдаем всю полосу шапки: как только тёмная секция касается шапки хотя бы краем, шапка темнеет.
+      // Так светлая шапка не бывает над тёмным листом (при выходе из тёмной секции тёмная шапка может на
+      // несколько пикселей остаться над светлым: это лучше). Нижний отступ срезает весь экран ниже шапки.
+      const line = Math.round(header.getBoundingClientRect().height);
       observer = new IntersectionObserver(
         (entries) => {
           for (const entry of entries) {
