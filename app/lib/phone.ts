@@ -126,6 +126,16 @@ export function formatPhonePartial(value: string): string {
  */
 export function nextPhoneValue(prev: string, raw: string, atEnd: boolean): string {
   const deleting = raw.length < prev.length;
+  // Вставка сразу целого номера не через событие вставки (автозаполнение, подсказка клавиатуры, голосовой ввод):
+  // разбираем как номер, а не считаем лишними цифрами после «+375 ».
+  if (raw.length - prev.length > 1) {
+    const whole = parseBelarusPhone(raw);
+    if (whole.ok) return whole.display;
+    if (prev.trim() === PHONE_PREFIX.trim() && raw.startsWith(prev)) {
+      const rest = parseBelarusPhone(raw.slice(prev.length));
+      if (rest.ok) return rest.display;
+    }
+  }
   if (!atEnd) return raw;
   if (deleting && phoneDigitCount(raw) <= 3 && raw.trim().startsWith("+")) {
     // Стёрли последнюю цифру номера: остаётся префикс. Стёрли сам префикс: поле пустое (иначе его нельзя убрать).
