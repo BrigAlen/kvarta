@@ -18,9 +18,32 @@ const ptMono = PT_Mono({
   display: "swap",
 });
 
+// Адрес сайта нужен для абсолютных ссылок в превью (og:image должен быть абсолютным). Можно переопределить через SITE_URL.
+const SITE_URL = process.env.SITE_URL ?? "https://kvarta.onrender.com";
+
+const TITLE = "Кварта — обжарка кофе в Минске";
+const DESCRIPTION = "Обжарили в четверг — в пятницу у вас. Свежеобжаренный кофе: зерно приходит на 1–3 день после обжарки.";
+
 export const metadata: Metadata = {
-  title: "Кварта — обжарка кофе в Минске",
-  description: "Свежеобжаренный кофе: зерно приходит к вам на 1–3 день после обжарки.",
+  metadataBase: new URL(SITE_URL),
+  title: TITLE,
+  description: DESCRIPTION,
+  // Превью ссылки в Telegram, мессенджерах и соцсетях: картинка 1200x630 (public/og.jpg, генератор scripts/og).
+  openGraph: {
+    type: "website",
+    locale: "ru_RU",
+    siteName: "Кварта",
+    url: "/",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "Кварта: обжарили в четверг — в пятницу у вас" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["/og.jpg"],
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
