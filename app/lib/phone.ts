@@ -78,3 +78,43 @@ export function formatPhoneIfValid(value: string): string {
   const parsed = parseBelarusPhone(value);
   return parsed.ok ? parsed.display : value;
 }
+
+// --- Мягкая маска поля телефона ---
+
+export const PHONE_PREFIX = "+375 ";
+
+function digitsOf(value: string): string {
+  return value.replace(/\D/g, "");
+}
+
+/** Сколько цифр можно ввести. После полного номера лишние цифры не принимаем: +375 (12), 80… (11), 0… (10). */
+export function phoneDigitLimit(value: string): number {
+  const digits = digitsOf(value);
+  if (value.trim().startsWith("+") || digits.startsWith("375")) return 12;
+  if (digits.startsWith("80")) return 11;
+  if (digits.startsWith("0")) return 10;
+  return 12;
+}
+
+/** Сколько цифр сейчас в поле (для сравнения с phoneDigitLimit). */
+export function phoneDigitCount(value: string): number {
+  return digitsOf(value).length;
+}
+
+/**
+ * Форматирование «на лету» для ввода в конец строки: +375 (29) 123-45-67. Работает только для номеров,
+ * начинающихся с 375; всё остальное (8 029…, 029…) возвращает как есть, их приведёт к виду проверка при выходе из поля.
+ * Лишние цифры после девяти отбрасывает. Закрывающую скобку и дефисы добавляет только когда есть следующая цифра,
+ * чтобы набор и стирание в конце не спорили с маской.
+ */
+export function formatPhonePartial(value: string): string {
+  const digits = digitsOf(value);
+  if (!digits.startsWith("375")) return value;
+  const national = digits.slice(3, 12);
+  if (national.length === 0) return PHONE_PREFIX;
+  let out = `+375 (${national.slice(0, 2)}`;
+  if (national.length > 2) out += `) ${national.slice(2, 5)}`;
+  if (national.length > 5) out += `-${national.slice(5, 7)}`;
+  if (national.length > 7) out += `-${national.slice(7, 9)}`;
+  return out;
+}

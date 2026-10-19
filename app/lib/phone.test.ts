@@ -2,7 +2,10 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   formatPhoneIfValid,
+  formatPhonePartial,
   parseBelarusPhone,
+  phoneDigitCount,
+  phoneDigitLimit,
   phoneErrorMessage,
   PHONE_EXAMPLE,
   sanitizePhoneInput,
@@ -100,4 +103,34 @@ test("вставка и выход из поля: верный номер фор
   assert.equal(formatPhoneIfValid("+375 (44) 123 45 67"), "+375 (44) 123-45-67");
   assert.equal(formatPhoneIfValid("+375 29 12"), "+375 29 12");
   assert.equal(formatPhoneIfValid(""), "");
+});
+
+test("мягкая маска: набор в конец форматируется по ходу", () => {
+  assert.equal(formatPhonePartial("+375 "), "+375 ");
+  assert.equal(formatPhonePartial("+375 2"), "+375 (2");
+  assert.equal(formatPhonePartial("+375 (29"), "+375 (29");
+  assert.equal(formatPhonePartial("+375 (291"), "+375 (29) 1");
+  assert.equal(formatPhonePartial("+375 (29) 1234"), "+375 (29) 123-4");
+  assert.equal(formatPhonePartial("+375 (29) 123-456"), "+375 (29) 123-45-6");
+  assert.equal(formatPhonePartial("+375291234567"), "+375 (29) 123-45-67");
+  assert.equal(formatPhonePartial("375291234567"), "+375 (29) 123-45-67");
+});
+
+test("мягкая маска: после полного номера лишние цифры отбрасываются", () => {
+  assert.equal(formatPhonePartial("+375 (29) 123-45-678"), "+375 (29) 123-45-67");
+  assert.equal(formatPhonePartial("+37529123456799999"), "+375 (29) 123-45-67");
+});
+
+test("мягкая маска: не белорусский вид не трогаем, его приведёт проверка при выходе", () => {
+  assert.equal(formatPhonePartial("80291234567"), "80291234567");
+  assert.equal(formatPhonePartial("8 029 123 45 67"), "8 029 123 45 67");
+  assert.equal(formatPhonePartial("029 123 45 67"), "029 123 45 67");
+});
+
+test("лимит цифр зависит от вида номера", () => {
+  assert.equal(phoneDigitLimit("+375 (29) 123-45-67"), 12);
+  assert.equal(phoneDigitLimit("375291234567"), 12);
+  assert.equal(phoneDigitLimit("8029"), 11);
+  assert.equal(phoneDigitLimit("0291234567"), 10);
+  assert.equal(phoneDigitCount("+375 (29) 123-45-67"), 12);
 });
