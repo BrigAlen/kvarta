@@ -60,8 +60,11 @@ export async function POST(request: Request) {
     after(() => notifyTelegram(result.lead));
     return reply(201, { ok: true });
   } catch (error) {
-    // В лог — только текст ошибки: без номера и без тела заявки.
-    console.error("lead: не удалось сохранить заявку:", error instanceof Error ? error.message : "неизвестная ошибка");
-    return reply(500, { ok: false, error: "server" });
+    // Код ошибки Postgres (например 42703 — нет колонки) безопасен: это не текст ошибки и не данные заявки.
+    // Он нужен, чтобы быстро понять причину сбоя на проде по ответу или по логу.
+    const code = typeof (error as { code?: unknown } | null)?.code === "string" ? (error as { code: string }).code : undefined;
+    // В лог — только текст ошибки и код: без номера и без тела заявки.
+    console.error("lead: не удалось сохранить заявку:", error instanceof Error ? error.message : "неизвестная ошибка", code ?? "");
+    return reply(500, { ok: false, error: "server", ...(code ? { code } : {}) });
   }
 }
